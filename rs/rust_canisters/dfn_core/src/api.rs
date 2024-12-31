@@ -22,74 +22,6 @@ impl Funds {
     }
 }
 
-/// This is the raw system API as documented by the IC public spec
-/// I would advise not using this as it's difficult to use and likely to change
-#[allow(dead_code)]
-#[cfg(target_arch = "wasm32")]
-pub mod ic0 {
-    #[link(wasm_import_module = "ic0")]
-    extern "C" {
-        pub fn canister_self_copy(dst: u32, offset: u32, size: u32);
-        pub fn canister_self_size() -> u32;
-        pub fn debug_print(offset: u32, size: u32);
-        pub fn msg_arg_data_copy(dst: u32, offset: u32, size: u32);
-        pub fn msg_arg_data_size() -> u32;
-        pub fn msg_caller_copy(dst: u32, offset: u32, size: u32);
-        pub fn msg_caller_size() -> u32;
-        pub fn msg_reject(src: u32, size: u32);
-        pub fn msg_reject_code() -> i32;
-        pub fn msg_reject_msg_copy(dst: u32, offset: u32, size: u32);
-        pub fn msg_reject_msg_size() -> u32;
-        pub fn msg_reply();
-        pub fn msg_reply_data_append(offset: u32, size: u32);
-        pub fn trap(offset: u32, size: u32);
-        pub fn call_new(
-            callee_src: u32,
-            callee_size: u32,
-            name_src: u32,
-            name_size: u32,
-            reply_fun: usize,
-            reply_env: u32,
-            reject_fun: usize,
-            reject_env: u32,
-        );
-        pub fn call_data_append(src: u32, size: u32);
-        pub fn call_on_cleanup(fun: usize, env: u32);
-        pub fn call_cycles_add(amount: u64);
-        pub fn call_cycles_add128(amount_high: u64, amount_low: u64);
-        pub fn call_perform() -> i32;
-        pub fn stable_size() -> u32;
-        pub fn stable_grow(additional_pages: u32) -> i32;
-        pub fn stable_read(dst: u32, offset: u32, size: u32);
-        pub fn stable_write(offset: u32, src: u32, size: u32);
-        pub fn stable64_size() -> u64;
-        pub fn stable64_grow(additional_pages: u64) -> i64;
-        pub fn stable64_read(dst: u64, offset: u64, size: u64);
-        pub fn stable64_write(offset: u64, src: u64, size: u64);
-        pub fn time() -> u64;
-        pub fn performance_counter(counter_type: u32) -> u64;
-        pub fn canister_cycle_balance() -> u64;
-        pub fn canister_cycle_balance128(dst: i32);
-        pub fn msg_cycles_available() -> u64;
-        pub fn msg_cycles_available128(dst: i32);
-        pub fn msg_cycles_refunded() -> u64;
-        pub fn msg_cycles_refunded128(dst: i32);
-        pub fn msg_cycles_accept(amount: u64) -> u64;
-        pub fn msg_cycles_accept128(max_amount_high: i64, max_amount_low: i64, dst: i32);
-        pub fn certified_data_set(src: u32, size: u32);
-        pub fn data_certificate_present() -> u32;
-        pub fn data_certificate_size() -> u32;
-        pub fn data_certificate_copy(dst: u32, offset: u32, size: u32);
-        pub fn canister_status() -> u32;
-        pub fn canister_version() -> u64;
-        pub fn mint_cycles(amount: u64) -> u64;
-        pub fn is_controller(src: u32, size: u32) -> u32;
-        pub fn in_replicated_execution() -> u32;
-        pub fn call_with_best_effort_response(timeout_seconds: u32);
-        pub fn msg_deadline() -> u64;
-    }
-}
-
 /*
 These stubs exist for when you're compiling this code not on a canister. If you
 delete this, the code will still build fine on OS X, but will fail to link on
@@ -100,7 +32,6 @@ sharing of types between WASM and x86 programs in crates which depend on this.
 */
 #[allow(clippy::too_many_arguments)]
 #[allow(clippy::missing_safety_doc)]
-#[cfg(not(target_arch = "wasm32"))]
 #[allow(dead_code)]
 pub mod ic0 {
     fn wrong_arch<A>(s: &str) -> A {
